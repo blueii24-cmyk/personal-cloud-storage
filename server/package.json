@@ -1,0 +1,15 @@
+{
+  "name": "cloud-storage-server",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20.6.0"
+  },
+  "scripts": {
+    "dev": "node --watch --env-file=../.env src/index.js",
+    "start": "node --env-file=../.env src/index.js",
+    "prisma:migrate": "node --env-file=../.env node_modules/.bin/prisma migrate dev",
+    "prisma:studio": "node --env-file=../.env node_modules/.bin/prisma studio",
+    "test:storage": "node --env-file=../.env scripts/test-storage.js"
+  }
+}

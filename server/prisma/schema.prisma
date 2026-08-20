@@ -1,0 +1,79 @@
+// Prisma schema.
+// This is the single source of truth for our database structure.
+// Run `npx prisma migrate dev` (from inside server/) any time you change this file.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  // SQLite for local dev. To move to PostgreSQL later, this becomes
+  // provider = "postgresql" and DATABASE_URL becomes a postgres:// connection
+  // string — no other code in the app has to change, because everything
+  // goes through Prisma Client either way.
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  username     String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  files  File[]
+  shares Share[]
+
+  @@map("users")
+}
+
+model File {
+  id      String @id @default(uuid())
+  ownerId String
+  owner   User   @relation(fields: [ownerId], references: [id])
+
+  // Self-relation: a folder "contains" files/folders whose parentFolderId
+  // points at it. Root-level items have parentFolderId = null.
+  parentFolderId String?
+  parentFolder   File?   @relation("FolderChildren", fields: [parentFolderId], references: [id])
+  children       File[]  @relation("FolderChildren")
+
+  name       String
+  // Opaque key the storage provider uses to locate the actual bytes.
+  // Never a raw filesystem path — the storage provider decides what to
+  // do with this string. Null for folders (they hold no bytes).
+  storageKey String?
+  mimeType   String?
+  size       Int      @default(0)
+  isFolder   Boolean  @default(false)
+  isStarred  Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  // Soft delete: set when a file is moved to Trash. Null = not deleted.
+  deletedAt  DateTime?
+
+  shares Share[]
+
+  @@map("files")
+  @@index([ownerId])
+  @@index([parentFolderId])
+}
+
+model Share {
+  id      String @id @default(uuid())
+  fileId  String
+  file    File   @relation(fields: [fileId], references: [id])
+  ownerId String
+  owner   User   @relation(fields: [ownerId], references: [id])
+
+  shareToken String    @unique
+  // "viewer" or "editor"
+  permission String    @default("viewer")
+  expiresAt  DateTime?
+  createdAt  DateTime  @default(now())
+
+  @@map("shares")
+  @@index([shareToken])
+}

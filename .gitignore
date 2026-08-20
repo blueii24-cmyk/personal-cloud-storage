@@ -1,0 +1,38 @@
+# Dependencies
+node_modules/
+client/node_modules/
+server/node_modules/
+
+# Environment variables (never commit real secrets)
+.env
+.env.local
+.env.*.local
+
+# Build output
+client/dist/
+server/dist/
+
+# Database files (local dev SQLite) — the schema and migrations in
+# server/prisma/ ARE committed; only the actual data file is not.
+server/prisma/dev.db
+server/prisma/dev.db-journal
+*.sqlite
+*.sqlite3
+
+# Uploaded user files (never commit real user data)
+storage/users/*
+!storage/users/.gitkeep
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS / editor junk
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Test/coverage output
+coverage/
+*.db
