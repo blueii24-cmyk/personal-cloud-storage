@@ -1,0 +1,133 @@
+.file-item {
+  position: relative;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  cursor: pointer;
+  transition: transform 120ms ease, box-shadow 120ms ease, border-color 120ms ease;
+}
+
+.file-item:hover,
+.file-item:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card-hover);
+  border-color: var(--color-accent);
+}
+
+/* Signature element: a small tab at the top of every card, echoing a
+   manila folder tab / library index card. Wider and steel-blue for
+   folders, narrower and sienna for files. */
+.file-item__tab {
+  position: absolute;
+  top: -1px;
+  left: 16px;
+  width: 30px;
+  height: 7px;
+  border-radius: 0 0 4px 4px;
+  background: var(--color-accent-warm);
+  opacity: 0.9;
+}
+
+.file-item--folder .file-item__tab {
+  width: 42px;
+  background: var(--color-accent);
+}
+
+/* Grid variant */
+.file-item--grid {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 20px 14px 14px;
+  min-height: 130px;
+}
+
+.file-item--grid .file-item__icon {
+  color: var(--color-accent);
+}
+
+.file-item--grid.file-item--folder .file-item__icon {
+  color: var(--color-accent);
+}
+
+.file-item--grid:not(.file-item--folder) .file-item__icon {
+  color: var(--color-ink-soft);
+}
+
+.file-item--grid .file-item__meta {
+  width: 100%;
+}
+
+.file-item--grid .file-item__actions {
+  position: absolute;
+  top: 10px;
+  right: 8px;
+  display: flex;
+  gap: 2px;
+  opacity: 0;
+  transition: opacity 120ms ease;
+}
+
+.file-item--grid:hover .file-item__actions {
+  opacity: 1;
+}
+
+/* List variant */
+.file-item--list {
+  display: grid;
+  grid-template-columns: 28px 1fr auto;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+}
+
+.file-item--list .file-item__icon {
+  color: var(--color-ink-soft);
+}
+
+.file-item--list.file-item--folder .file-item__icon {
+  color: var(--color-accent);
+}
+
+.file-item--list .file-item__actions {
+  display: flex;
+  gap: 2px;
+}
+
+/* Shared */
+.file-item__name {
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.file-item__sub {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--color-ink-soft);
+  margin-top: 2px;
+}
+
+.file-item__action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-sunken);
+  color: var(--color-ink-soft);
+}
+
+.file-item__action:hover {
+  background: var(--color-accent);
+  color: #fff;
+}
+
+.file-item__action--danger:hover {
+  background: var(--color-danger);
+}

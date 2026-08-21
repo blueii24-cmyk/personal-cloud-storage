@@ -1,0 +1,61 @@
+.file-grid-area {
+  position: relative;
+  flex: 1;
+  padding: 12px 24px 24px;
+  overflow-y: auto;
+}
+
+.file-grid--grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 14px;
+}
+
+.file-grid--list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.file-grid-status {
+  color: var(--color-ink-soft);
+  padding: 40px 0;
+  text-align: center;
+}
+
+.file-grid-status--error {
+  color: var(--color-danger);
+}
+
+.file-grid-empty {
+  text-align: center;
+  padding: 60px 0;
+  color: var(--color-ink-soft);
+}
+
+.file-grid-empty p {
+  margin: 4px 0;
+}
+
+.file-grid-empty__hint {
+  font-size: 13px;
+}
+
+.file-grid-area--dragging {
+  outline: 2px dashed var(--color-accent);
+  outline-offset: -8px;
+  border-radius: var(--radius-md);
+}
+
+.file-grid-drop-overlay {
+  position: absolute;
+  inset: 12px 24px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(61, 90, 128, 0.08);
+  border-radius: var(--radius-md);
+  color: var(--color-accent);
+  font-weight: 600;
+  pointer-events: none;
+}

@@ -40,6 +40,47 @@ export async function uploadFiles(req, res, next) {
   }
 }
 
+export async function createFolder(req, res, next) {
+  try {
+    const parentFolderId = req.body.parentFolderId || null;
+    const name = req.body.name;
+    if (!name || typeof name !== "string") {
+      return res.status(400).json({ error: "Folder name is required" });
+    }
+    await fileService.assertValidParentFolder(req.userId, parentFolderId);
+    const folder = await fileService.createFolder({ userId: req.userId, parentFolderId, name });
+    res.status(201).json({ folder });
+  } catch (err) {
+    next(err);
+  }
+}
+
+export async function renameFile(req, res, next) {
+  try {
+    const fileId = req.params.id;
+    const { name } = req.body;
+    if (!name || typeof name !== "string") {
+      return res.status(400).json({ error: "New name is required" });
+    }
+    const updated = await fileService.renameFile({ userId: req.userId, fileId, newName: name });
+    res.json({ file: updated });
+  } catch (err) {
+    next(err);
+  }
+}
+
+export async function moveFile(req, res, next) {
+  try {
+    const fileId = req.params.id;
+    const destinationParentId = req.body.destinationParentId || null;
+    // destinationParentId may be null (root) or a folder id
+    const updated = await fileService.moveFile({ userId: req.userId, fileId, destinationParentId });
+    res.json({ file: updated });
+  } catch (err) {
+    next(err);
+  }
+}
+
 export async function getFile(req, res, next) {
   try {
     const file = await fileService.getOwnedFile(req.userId, req.params.id);

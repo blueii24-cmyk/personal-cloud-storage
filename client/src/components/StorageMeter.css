@@ -1,0 +1,25 @@
+.storage-meter {
+  padding: 0 4px;
+  margin-bottom: 12px;
+}
+
+.storage-meter__track {
+  height: 5px;
+  border-radius: 3px;
+  background: var(--color-surface-sunken);
+  overflow: hidden;
+}
+
+.storage-meter__fill {
+  height: 100%;
+  width: 0%;
+  background: var(--color-accent);
+}
+
+.storage-meter__label {
+  display: block;
+  margin-top: 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--color-ink-soft);
+}

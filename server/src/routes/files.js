@@ -37,6 +37,12 @@ router.use(requireAuth); // every route below requires a logged-in user
 
 router.get("/", filesController.listFiles);
 router.post("/upload", uploadFilesMiddleware, filesController.uploadFiles);
+
+// Folders and file operations
+router.post("/folders", filesController.createFolder);
+router.patch("/:id/rename", filesController.renameFile);
+router.post("/:id/move", filesController.moveFile);
+
 router.get("/:id", filesController.getFile);
 router.get("/:id/download", filesController.downloadFile);
 router.delete("/:id", filesController.deleteFile);

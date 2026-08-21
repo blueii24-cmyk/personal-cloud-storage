@@ -1,0 +1,19 @@
+.drive-shell {
+  display: flex;
+  height: 100%;
+}
+
+.drive-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.full-page-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--color-ink-soft);
+}

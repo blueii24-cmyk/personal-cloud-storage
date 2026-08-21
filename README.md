@@ -362,8 +362,71 @@ cd server
 npm install multer
 ```
 
+## Phase 6 (frontend) — the Drive dashboard
+
+**A note on ordering:** this is really the plan's Phase 7 (frontend
+interface) — I built it ahead of Phase 6's backend (folder create/
+rename/move) because that's what was asked for. Consequence: there's
+no way to create a folder through the UI yet (only by hand-editing a
+row via `npm run prisma:studio` and setting `isFolder = true`), and
+breadcrumbs walk the parent chain client-side one request at a time
+rather than calling a dedicated backend endpoint. Both get cleaner
+once the real Phase 6 backend exists.
+
+**Status:** a full React app — login/register, a Drive dashboard with
+sidebar, header, breadcrumbs, and a file grid/list wired to every
+endpoint built so far (list, upload, download, delete).
+
+### Visual direction
+
+Original design, not a Google Drive skin: a cooler "working archive"
+palette (steel blue `#3D5A80` + muted sienna `#A85C32` on a soft
+grey-white), Fraunces for the wordmark, Inter for UI text, IBM Plex
+Mono for file metadata so sizes/dates read like catalog entries. Every
+file/folder card has a small tab at its top edge — a nod to a manila
+folder tab / library index card — which is the one deliberately
+distinctive visual signature; everything else stays quiet around it.
+
+### Structural notes
+
+- **`client/src/context/AuthContext.jsx`** — not in the original file
+  tree sketch, added because auth state (current user, login/logout)
+  needs to be available app-wide, not just in one page.
+- **Stubbed, not faked:** the header search box and the sidebar's
+  Starred/Trash links are visibly disabled with a tooltip explaining
+  why, rather than being wired to fake behavior. Same for the storage
+  meter — it shows a placeholder, not a made-up number, since
+  `GET /api/storage` doesn't exist yet.
+- **Downloads use a plain `<a href>`** to the download endpoint rather
+  than a fetch+blob dance — the cookie rides along on normal
+  navigation, and the server's `Content-Disposition` header handles
+  the filename.
+
+### Install and run
+
+```
+cd client
+npm install react react-dom react-router-dom lucide-react
+npm install --save-dev vite @vitejs/plugin-react
+cp .env.example .env
+npm run dev
+```
+
+Open `http://localhost:5173` — with the backend from Phase 5 also
+running (`npm run dev` inside `server/`), you should be able to
+register, land on the dashboard, upload a file by dragging it in or
+clicking Upload, switch between grid/list, and delete a file.
+
+### A CORS note for phone testing
+
+The backend's `CLIENT_ORIGIN` is set to `http://localhost:5173`. If
+you test from your phone using your laptop's LAN IP (e.g.
+`http://192.168.1.5:5173`), that origin won't match, and API requests
+will be blocked by CORS. Update `CLIENT_ORIGIN` in your root `.env` to
+match, or revisit this properly in the deployment phase.
+
 ## Next steps
 
-Phase 6: real folder hierarchy — creating folders, entering them,
-breadcrumbs, renaming, and moving files/folders (with protection
-against moving a folder into itself).
+Phase 6 (backend): folder creation, rename, move, and breadcrumb
+support server-side — the piece this dashboard is already shaped to
+plug into.

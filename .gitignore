@@ -35,4 +35,3 @@ Thumbs.db
 
 # Test/coverage output
 coverage/
-*.db
